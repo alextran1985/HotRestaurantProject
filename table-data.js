@@ -1,4 +1,5 @@
 let tableArray = [{
+
     customerName: "Me",
     customerEmail: "myself@gmail.com",
     customerID: "me1",

@@ -92,13 +92,21 @@
 
   $(".submit").on("click", function(event) {
     event.preventDefault();
-
+    
+    let reserveName = $("#reserve-name").val().trim();
+    let reservePhone = $("#reserve-phone").val().trim();
+    let reserveEmail = $("#reserve-email").val().trim();
+    let reserveId = $("#reserve-unique-id").val().trim();
+    if(!reserveName || !reservePhone || !reserveEmail || !reserveId) {
+      alert("All Fields are required!");
+      return;
+    }
     // Here we grab the form elements
-    var newReservation = {
-      customerName: $("#reserve-name").val().trim(),
-      phoneNumber: $("#reserve-phone").val().trim(),
-      customerEmail: $("#reserve-email").val().trim(),
-      customerID: $("#reserve-unique-id").val().trim()
+    let newReservation = {
+      customerName: reserveName,
+      phoneNumber: reservePhone,
+      customerEmail: reserveEmail,
+      customerID: reserveId
     };
 
     console.log(newReservation);
