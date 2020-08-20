@@ -36,12 +36,12 @@ app.get("/reserve", function (req, res) {
 
 let tableData = require('./table-data.js');
 let waitListData = require('waitinglist-data.js');
-var path = require('path');
+// var path = require('path');
 
 // Routing
 // =============================================================
 
-module.exports = function (app) {
+// module.exports = function (app) {
 
     // API *GET* Get all the reservations as JSON / api / tables
 
@@ -76,7 +76,7 @@ module.exports = function (app) {
 
         console.log(tableData);
     })
-}
+// }
 
 // Starts the server to begin listening
 // =============================================================
