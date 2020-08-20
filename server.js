@@ -2,65 +2,62 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
-
 // Sets up the Express App
 // =============================================================
 var app = express();
 var PORT = process.env.PORT || 8080;
-
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 // Routes
 // =============================================================
-
 // Basic route that sends the user first to the AJAX Page
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "view.html"));
+    res.sendFile(path.join(__dirname, "index.html"));
 });
-
-app.get("/add", function (req, res) {
-    res.sendFile(path.join(__dirname, "add.html"));
+app.get("/tables", function (req, res) {
+    res.sendFile(path.join(__dirname, "reserve-view.html"));
 });
-
-// Displays all characters
-app.get("/api/characters", function (req, res) {
-    return res.json(characters);
+app.get("/reserve", function (req, res) {
+    res.sendFile(path.join(__dirname, "reserve-form.html"));
 });
+// Data
+// Linking routes to "data" sources. 
+// ^ Data sources hold arrays of information on table-data, waitinglist, etc.
+// =============================================================
+let tableData = require('./table-data');
+let waitListData = []
 
-// Displays a single character, or returns false
-app.get("/api/characters/:character", function (req, res) {
-    var chosen = req.params.character;
-
-    console.log(chosen);
-
-    for (var i = 0; i < characters.length; i++) {
-        if (chosen === characters[i].routeName) {
-            return res.json(characters[i]);
-        }
+// Routing
+// =============================================================
+// module.exports = function (app) {
+// API *GET* Get all the reservations as JSON / api / tables
+app.get('/api/tables', function (req, res) {
+    res.json(tableData);
+});
+app.get('/api/waitlist', function (req, res) {
+    res.json(waitListData);
+});
+// API *POST* Send form to / api / tables
+app.post('/api/tables', function (req, res) {
+    // Server responds to requests & lets users know if a table is available or not.
+    if (tableData.length < 5) {
+        tableData.push(req.body);
+        res.json(true);             // true = have a table
+    } else {
+        waitListData.push(req.body);
+        res.json(false);
     }
-
-    return res.json(false);
 });
-
-// Create New Characters - takes in JSON input
-app.post("/api/characters", function (req, res) {
-    // req.body hosts is equal to the JSON post sent from the user
-    // This works because of our body parsing middleware
-    var newCharacter = req.body;
-
-    // Using a RegEx Pattern to remove spaces from newCharacter
-    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newCharacter.routeName = newCharacter.name.replace(/\s+/g, "").toLowerCase();
-
-    console.log(newCharacter);
-
-    characters.push(newCharacter);
-
-    res.json(newCharacter);
-});
-
+// ---------------------------------------------------------------------------
+// API * PUT* Clear the reservations / api / clear
+app.post('/api/clear', function (req, res) {
+    // Empty out the arrays of data
+    tableData = [];
+    waitListData = [];
+    console.log(tableData);
+})
+// }
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function () {
