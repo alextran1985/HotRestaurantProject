@@ -28,17 +28,16 @@ app.get("/reserve", function (req, res) {
 // Linking routes to "data" sources. 
 // ^ Data sources hold arrays of information on table-data, waitinglist, etc.
 // =============================================================
-let tableData = require('./table-data');
-let waitListData = []
-
+let tableData = require('./table-data');        // SAME AS let tableData = require('table-data.js');
+let waitListData = require('./waitinglist-data.js');      // SAME AS let waitListData = [] 
 
 // Data
 // Linking routes to "data" sources. 
 // ^ Data sources hold arrays of information on table-data, waitinglist, etc.
 // =============================================================
 
-let tableData = require('./table-data.js');
-let waitListData = require('waitinglist-data.js');
+
+
 // var path = require('path');
 
 // Routing
