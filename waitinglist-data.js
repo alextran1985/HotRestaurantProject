@@ -1,5 +1,4 @@
-let tableArray = [{
-
+let waitingArray = [{
     customerName: "Me",
     customerEmail: "myself@gmail.com",
     customerID: "me1",
@@ -7,4 +6,4 @@ let tableArray = [{
 
 }];
 
-module.exports = tableArray;
+module.exports = waitingArray;
